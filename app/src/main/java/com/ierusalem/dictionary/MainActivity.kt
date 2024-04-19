@@ -1,46 +1,91 @@
 package com.ierusalem.dictionary
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.ierusalem.dictionary.ui.theme.DictionaryTheme
+import androidx.activity.compose.BackHandler
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.core.view.ViewCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.ierusalem.dictionary.components.DictionaryDrawer
+import com.ierusalem.dictionary.databinding.ActivityMainBinding
+import com.ierusalem.dictionary.features.home.domain.MainViewModel
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContent {
-            DictionaryTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets -> insets }
+
+        setContentView(
+            ComposeView(this).apply {
+                consumeWindowInsets = false
+                setContent {
+                    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+                    val drawerOpen by viewModel.drawerShouldBeOpened.collectAsStateWithLifecycle()
+
+                    if (drawerOpen) {
+                        // Open drawer and reset state in VM.
+                        LaunchedEffect(Unit) {
+                            // wrap in try-finally to handle interruption whiles opening drawer
+                            try {
+                                drawerState.open()
+                            } finally {
+                                viewModel.resetOpenDrawerAction()
+                            }
+                        }
+                    }
+
+                    // Intercepts back navigation when the drawer is open
+                    val scope = rememberCoroutineScope()
+                    if (drawerState.isOpen) {
+                        BackHandler {
+                            scope.launch {
+                                drawerState.close()
+                            }
+                        }
+                    }
+
+                    DictionaryDrawer(
+                        drawerState = drawerState,
+                        onChatClicked = {
+//                            findNavController().popBackStack(R.id.nav_home, false)
+//                            scope.launch {
+//                                drawerState.close()
+//                            }
+                        },
+                    ) {
+                        AndroidViewBinding(ActivityMainBinding::inflate)
+                    }
                 }
             }
-        }
+        )
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController().navigateUp() || super.onSupportNavigateUp()
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DictionaryTheme {
-        Greeting("Android")
+    /**
+     * See https://issuetracker.google.com/142847973
+     */
+    private fun findNavController(): NavController {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        return navHostFragment.navController
     }
 }

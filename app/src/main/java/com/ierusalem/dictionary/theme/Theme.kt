@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.ui.theme
+package com.ierusalem.dictionary.theme
 
 import android.app.Activity
 import android.os.Build
@@ -58,7 +58,7 @@ fun DictionaryTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

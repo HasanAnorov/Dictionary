@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.ierusalem.dictionary.ui.theme.DictionaryTheme
+import androidx.navigation.findNavController
+import com.ierusalem.dictionary.R
+import com.ierusalem.dictionary.theme.DictionaryTheme
 
 class LandingFragment: Fragment() {
 
@@ -18,7 +20,9 @@ class LandingFragment: Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 DictionaryTheme {
-                    LandingScreen()
+                    LandingScreen(
+                        onNavigate = { findNavController().navigate(R.id.action_landingFragment_to_homeFragment) }
+                    )
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.ui.theme
+package com.ierusalem.dictionary.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Dictionary</string>
+    <string name="no_words_available">No words found!</string>
+    <string name="something_went_wrong">Something went wrong!\n</string>
+    <string name="loading">Loading …</string>
 </resources>
