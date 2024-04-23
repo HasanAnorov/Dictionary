@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -18,6 +20,11 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+    }
+
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes = true
     }
 
     buildTypes {
@@ -69,6 +76,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+
     //google fonts
     implementation (libs.androidx.ui.text.google.fonts)
 
@@ -97,5 +105,9 @@ dependencies {
 
     //android view binding
     implementation (libs.androidx.ui.viewbinding)
+
+    //hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
 }

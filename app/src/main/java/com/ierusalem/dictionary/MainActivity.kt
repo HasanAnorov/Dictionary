@@ -20,8 +20,10 @@ import androidx.navigation.fragment.NavHostFragment
 import com.ierusalem.dictionary.components.DictionaryDrawer
 import com.ierusalem.dictionary.databinding.ActivityMainBinding
 import com.ierusalem.dictionary.features.home.domain.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()

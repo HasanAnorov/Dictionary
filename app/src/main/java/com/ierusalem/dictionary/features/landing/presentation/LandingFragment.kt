@@ -6,20 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.ierusalem.dictionary.R
+import com.ierusalem.dictionary.features.landing.domain.LandingViewModel
 import com.ierusalem.dictionary.theme.DictionaryTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LandingFragment: Fragment() {
+
+    private val viewModel: LandingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.getWordsEngUzb()
+        viewModel.getWordsUzbEng()
+
         return ComposeView(requireContext()).apply {
             setContent {
-                DictionaryTheme {
+                DictionaryTheme(darkTheme = true) {
                     LandingScreen(
                         onNavigate = { findNavController().navigate(R.id.action_landingFragment_to_homeFragment) }
                     )

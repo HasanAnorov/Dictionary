@@ -3,21 +3,22 @@ accompanistSwiperefresh = "0.35.0-alpha"
 agp = "8.3.2"
 appcompat = "1.6.1"
 converterGson = "2.9.0"
+hiltAndroid = "2.48.1"
 kotlin = "1.9.0"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 library = "4.0.0"
 libraryNoOp = "4.0.0"
 lifecycleRuntimeKtx = "2.7.0"
-activityCompose = "1.8.2"
-composeBom = "2024.04.00"
+activityCompose = "1.9.0"
+composeBom = "2024.04.01"
 loggingInterceptor = "5.0.0-alpha.11"
 navigationFragmentKtx = "2.7.7"
 okhttp = "5.0.0-alpha.11"
 retrofit = "2.9.0"
-uiTextGoogleFonts = "1.6.5"
+uiTextGoogleFonts = "1.6.6"
 lifecycleRuntimeCompose = "2.7.0"
 
 [libraries]
@@ -30,6 +31,8 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "uiTextGoogleFonts" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
