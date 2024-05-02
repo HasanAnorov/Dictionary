@@ -1,5 +1,6 @@
 package com.ierusalem.dictionary.features.landing.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +19,18 @@ class LandingFragment: Fragment() {
 
     private val viewModel: LandingViewModel by viewModels()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel.getWordsEngUzb()
+        viewModel.getWordsUzbEng()
+        //viewModel.insertWordsToDB()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.getWordsEngUzb()
-        viewModel.getWordsUzbEng()
 
         return ComposeView(requireContext()).apply {
             setContent {

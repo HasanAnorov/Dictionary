@@ -3,35 +3,90 @@ package com.ierusalem.dictionary.features.landing.domain
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ierusalem.androchat.ui.navigation.DefaultNavigationEventDelegate
+import com.ierusalem.androchat.ui.navigation.NavigationEventDelegate
+import com.ierusalem.androchat.ui.navigation.emitNavigation
+import com.ierusalem.dictionary.features.landing.db.WordsDao
+import com.ierusalem.dictionary.features.landing.presentation.LandingPageNavigation
+import com.ierusalem.dictionary.features.landing.presentation.model.WordItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.annotation.concurrent.Immutable
 import javax.inject.Inject
 
 @HiltViewModel
 class LandingViewModel @Inject constructor(
-    private val repository: WordsRepository
-): ViewModel() {
+    private val repository: WordsRepository,
+    private val dao: WordsDao
+) : ViewModel(),
+    NavigationEventDelegate<LandingPageNavigation> by DefaultNavigationEventDelegate() {
 
     private val handler = CoroutineExceptionHandler { _, exception ->
         Log.d("ahi3646", " coroutineExceptionHandler : error - $exception ")
-        //emitNavigation(HomeScreenNavigation.InvalidResponse)
+        emitNavigation(LandingPageNavigation.Failure)
     }
 
-    fun getWordsUzbEng(){
+    private val _state: MutableStateFlow<LandingPageUiState> =
+        MutableStateFlow(LandingPageUiState())
+    private val state = _state.asStateFlow()
 
+    fun getWordsUzbEng() {
+        viewModelScope.launch(handler) {
+            repository.getWordUzbEng().let { response ->
+                if (response.isSuccessful) {
+                    _state.update { uiState ->
+                        uiState.copy(
+                            remoteUzbEngWords = response.body()!!.words.map { wordItemDto ->
+                                wordItemDto.toWordItem()
+                            }
+                        )
+                    }
+                } else {
+                    emitNavigation(LandingPageNavigation.Failure)
+                }
+            }
+        }
     }
 
-    fun getWordsEngUzb(){
+    fun getWordsEngUzb() {
         viewModelScope.launch(handler) {
             repository.getWordsEngUzb().let { response ->
-                if(response.isSuccessful){
-                    Log.d("ahi3646", "success: ${response.body()} ")
-                }else{
-                    Log.d("ahi3646", "failure: ${response.errorBody()} ")
+                if (response.isSuccessful) {
+                    _state.update { uiState ->
+                        uiState.copy(
+                            remoteEngUzbWords = response.body()!!.words.map { wordItemDto ->
+                                wordItemDto.toWordItem()
+                            }
+                        )
+                    }
+                } else {
+                    emitNavigation(LandingPageNavigation.Failure)
+                }
+            }
+        }
+    }
+
+    fun insertWordsToDB() {
+        if (state.value.remoteEngUzbWords.isNotEmpty() && state.value.remoteUzbEngWords.isNotEmpty()) {
+            Log.d("ahi3646", "insertWordToDB: ")
+            state.value.remoteEngUzbWords.toMutableList().apply {
+                addAll(state.value.remoteUzbEngWords)
+            }.forEach {
+                viewModelScope.launch(handler) {
+                    dao.upsertWordItem(it)
                 }
             }
         }
     }
 
 }
+
+@Immutable
+data class LandingPageUiState(
+    val remoteEngUzbWords: List<WordItem> = listOf(),
+    val remoteUzbEngWords: List<WordItem> = listOf(),
+)

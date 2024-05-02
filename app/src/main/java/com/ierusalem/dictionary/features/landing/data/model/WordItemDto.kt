@@ -24,6 +24,7 @@ data class WordItemDto(
 ){
     fun toWordItem(): WordItem {
         return WordItem(
+            id = id,
             word = word,
             definition = definition,
             translations = uzWords,
