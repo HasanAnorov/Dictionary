@@ -38,7 +38,6 @@ val KarlaFontFamily = FontFamily(
     Font(resId = R.font.karla_bold, weight = FontWeight.Bold),
 )
 
-
 // Set of Material typography styles to start with
 val Typography = Typography(
     displayLarge = TextStyle(

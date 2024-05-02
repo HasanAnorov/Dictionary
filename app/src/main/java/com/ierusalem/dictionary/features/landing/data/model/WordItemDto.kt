@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.features.home.data.model
+package com.ierusalem.dictionary.features.landing.data.model
 
 
 import com.google.gson.annotations.SerializedName
@@ -9,7 +9,6 @@ data class WordItemDto(
     val audio: String,
     @SerializedName("created")
     val created: String,
-    //fixme i changed definition type from any to string
     @SerializedName("definition")
     val definition: String?,
     @SerializedName("direction")

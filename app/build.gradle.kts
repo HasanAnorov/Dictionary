@@ -76,38 +76,30 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
     //google fonts
     implementation (libs.androidx.ui.text.google.fonts)
-
     //appCompat features
     implementation(libs.androidx.appcompat)
-
     //view model
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
     //navigation
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
-
     //chucker
     debugImplementation (libs.library)
     releaseImplementation (libs.library.no.op)
-
     //retrofit
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation (libs.okhttp)
     implementation (libs.logging.interceptor)
-
-    //pull to refresh
-    implementation (libs.accompanist.swiperefresh)
-
     //android view binding
     implementation (libs.androidx.ui.viewbinding)
-
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    // Room
+    implementation (libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
 }

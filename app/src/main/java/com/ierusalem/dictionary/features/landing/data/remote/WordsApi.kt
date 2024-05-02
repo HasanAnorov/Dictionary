@@ -1,7 +1,7 @@
 package com.ierusalem.dictionary.features.landing.data.remote
 
 import com.google.gson.annotations.SerializedName
-import com.ierusalem.dictionary.features.home.data.model.WordItemDto
+import com.ierusalem.dictionary.features.landing.data.model.WordItemDto
 import retrofit2.Response
 import retrofit2.http.GET
 

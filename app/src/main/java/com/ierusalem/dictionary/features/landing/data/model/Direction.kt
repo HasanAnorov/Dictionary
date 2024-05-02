@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.features.home.data.model
+package com.ierusalem.dictionary.features.landing.data.model
 
 
 import com.google.gson.annotations.SerializedName
