@@ -34,14 +34,6 @@ class LandingFragment: Fragment() {
         ).build()
     }
 
-//    private val db by lazy {
-//        Room.databaseBuilder(
-//            requireContext(),
-//            WordsDatabase::class.java,
-//            "dictionary.db"
-//        ).build()
-//    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel.getWordsUzbEng()

@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class WordModel (
+    val language:String ,
     val word: String,
     val definition: String?,
     val translations: List<String>,

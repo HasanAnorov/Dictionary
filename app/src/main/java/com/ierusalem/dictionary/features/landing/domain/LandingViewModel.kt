@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ierusalem.androchat.ui.navigation.DefaultNavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.NavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.emitNavigation
+import com.ierusalem.dictionary.core.utils.Constants
 import com.ierusalem.dictionary.features.landing.db.WordModel
 //import com.ierusalem.dictionary.features.landing.db.WordModel
 import com.ierusalem.dictionary.features.landing.db.WordsDao
@@ -74,18 +75,30 @@ class LandingViewModel @Inject constructor(
 
     fun insertWordsToDB(dao: WordsDao) {
         Log.d("ahi3646", "insertWordsToDB: ")
-        val allWords = state.value.remoteEngUzbWords
+        val englishWords = state.value.remoteEngUzbWords.map {
+            WordModel(
+                word = it.word,
+                definition = it.definition,
+                translations = it.translations,
+                audio = it.audio,
+                category = it.category,
+                language = Constants.LANGUAGE_ENGLISH
+            )
+        }
+        val uzbekWords = state.value.remoteUzbEngWords.map {
+            WordModel(
+                word = it.word,
+                definition = it.definition,
+                translations = it.translations,
+                audio = it.audio,
+                category = it.category,
+                language = Constants.LANGUAGE_UZBEK
+            )
+        }
+        val allWords = englishWords
             .toMutableList()
             .apply {
-                addAll(state.value.remoteUzbEngWords)
-            }.map {
-                WordModel(
-                    word = it.word,
-                    definition = it.definition,
-                    translations = it.translations,
-                    audio = it.audio,
-                    category = it.category
-                )
+                addAll(uzbekWords)
             }
         viewModelScope.launch(Dispatchers.IO) {
             dao.deleteAllWords()
