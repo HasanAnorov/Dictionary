@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.room.Room
 import com.ierusalem.dictionary.R
+import com.ierusalem.dictionary.core.utils.Constants
 import com.ierusalem.dictionary.features.landing.db.WordsDatabase
 import com.ierusalem.dictionary.features.landing.domain.LandingViewModel
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
@@ -62,7 +64,10 @@ class LandingFragment: Fragment() {
             setContent {
                 DictionaryTheme(darkTheme = true) {
                     LandingScreen(
-                        onNavigate = { findNavController().navigate(R.id.action_landingFragment_to_homeFragment) }
+                        onNavigate = {isEnglish ->
+                            val bundle = bundleOf(Constants.IS_ENGLISH_BUNDLE_KEY to isEnglish)
+                            findNavController().navigate(R.id.action_landingFragment_to_homeFragment, bundle)
+                        }
                     )
                 }
             }

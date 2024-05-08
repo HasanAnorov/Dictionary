@@ -30,7 +30,7 @@ import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @Composable
 fun LandingScreen(
-    onNavigate: () -> Unit
+    onNavigate: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,7 +58,7 @@ fun LandingScreen(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 8.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .clickable { onNavigate() },
+                    .clickable { onNavigate(false) },
                 colors = CardDefaults.cardColors(
                     containerColor = Color.Transparent
                 ),
@@ -115,7 +115,7 @@ fun LandingScreen(
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp, bottom = 8.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .clickable { onNavigate() },
+                    .clickable { onNavigate(true) },
                 colors = CardDefaults.cardColors(
                     containerColor = Color.Transparent
                 ),

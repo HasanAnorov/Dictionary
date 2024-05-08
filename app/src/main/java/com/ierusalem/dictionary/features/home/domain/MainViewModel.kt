@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.ierusalem.dictionary.core.utils.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 /**
  * Used to communicate between screens.
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(
+
+) : ViewModel() {
 
     private val _drawerShouldBeOpened = MutableStateFlow(false)
     val drawerShouldBeOpened = _drawerShouldBeOpened.asStateFlow()
@@ -29,9 +32,19 @@ class MainViewModel : ViewModel() {
         Log.d("ahi3646", "resetOpenDrawerAction: ")
         _drawerShouldBeOpened.value = false
     }
+
+    fun toggleEnglish(isEnglish: Boolean) {
+        _state.update {
+            it.copy(
+                isEnglish = isEnglish
+            )
+        }
+    }
+
 }
 
 @Immutable
 data class HomeScreenState(
-    val words: List<String> = Constants.PREVIEW_WORDS_DATA
+    val words: List<String> = Constants.PREVIEW_WORDS_DATA,
+    val isEnglish: Boolean = false
 )
