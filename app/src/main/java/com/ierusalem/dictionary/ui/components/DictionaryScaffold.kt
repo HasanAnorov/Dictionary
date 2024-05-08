@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ierusalem.dictionary.components
+package com.ierusalem.dictionary.ui.components
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue.Closed
@@ -22,7 +22,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @Composable
 fun DictionaryDrawer(

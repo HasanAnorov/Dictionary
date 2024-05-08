@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.ierusalem.dictionary.R
 import com.ierusalem.dictionary.features.landing.domain.LandingViewModel
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +23,7 @@ class LandingFragment: Fragment() {
         super.onAttach(context)
         viewModel.getWordsEngUzb()
         viewModel.getWordsUzbEng()
-        //viewModel.insertWordsToDB()
+        viewModel.insertWordsToDB()
     }
 
     override fun onCreateView(

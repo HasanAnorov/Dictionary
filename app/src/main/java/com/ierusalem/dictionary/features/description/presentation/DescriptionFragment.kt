@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 class DescriptionFragment : Fragment() {
 

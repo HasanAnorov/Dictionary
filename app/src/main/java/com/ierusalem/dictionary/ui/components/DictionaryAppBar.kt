@@ -16,7 +16,7 @@
 
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.ierusalem.dictionary.components
+package com.ierusalem.dictionary.ui.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
@@ -30,7 +30,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

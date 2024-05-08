@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WordsDao {
     @Upsert
-    suspend fun upsertWordItem(word: WordItem)
-    @Query("SELECT*FROM worditem WHERE word LIKE :query ")
+    suspend fun upsertWordItem(word: WordModel)
+    @Query("SELECT*FROM wordmodel WHERE word LIKE :query ")
     fun getWordsByQuery(query:String): Flow<List<WordItem>>
-    @Query("SELECT*FROM worditem WHERE category LIKE :category ")
+    @Query("SELECT*FROM wordmodel WHERE category LIKE :category ")
     fun getWordsByCategory(category:String): List<WordItem>
 }

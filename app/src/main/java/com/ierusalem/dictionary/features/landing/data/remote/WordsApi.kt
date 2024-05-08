@@ -8,6 +8,8 @@ import retrofit2.http.GET
 interface WordsApi {
     @GET("en-uz")
     suspend fun getEngUzb(): Response<WordsRemote>
+
+    //user different response model
     @GET("uz-en")
     suspend fun getUzbEng(): Response<WordsRemote>
 }

@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary
+package com.ierusalem.dictionary.ui
 
 import android.os.Bundle
 import androidx.activity.compose.BackHandler
@@ -17,7 +17,8 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.ierusalem.dictionary.components.DictionaryDrawer
+import com.ierusalem.dictionary.R
+import com.ierusalem.dictionary.ui.components.DictionaryDrawer
 import com.ierusalem.dictionary.databinding.ActivityMainBinding
 import com.ierusalem.dictionary.features.home.domain.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint

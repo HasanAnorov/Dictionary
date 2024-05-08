@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ierusalem.androchat.ui.navigation.DefaultNavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.NavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.emitNavigation
+import com.ierusalem.dictionary.features.landing.db.WordModel
 import com.ierusalem.dictionary.features.landing.db.WordsDao
 import com.ierusalem.dictionary.features.landing.presentation.LandingPageNavigation
 import com.ierusalem.dictionary.features.landing.presentation.model.WordItem
@@ -33,6 +34,10 @@ class LandingViewModel @Inject constructor(
     private val _state: MutableStateFlow<LandingPageUiState> =
         MutableStateFlow(LandingPageUiState())
     private val state = _state.asStateFlow()
+
+//    init {
+//        insertWordsToDB()
+//    }
 
     fun getWordsUzbEng() {
         viewModelScope.launch(handler) {
@@ -77,7 +82,15 @@ class LandingViewModel @Inject constructor(
                 addAll(state.value.remoteUzbEngWords)
             }.forEach {
                 viewModelScope.launch(handler) {
-                    dao.upsertWordItem(it)
+                    dao.upsertWordItem(
+                        WordModel(
+                            word = it.word,
+                            definition = it.definition,
+                            translations = it.translations,
+                            audio = it.audio,
+                            category = it.category
+                        )
+                    )
                 }
             }
         }

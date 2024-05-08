@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.components
+package com.ierusalem.dictionary.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ierusalem.dictionary.R
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @Composable
 fun WordItem(

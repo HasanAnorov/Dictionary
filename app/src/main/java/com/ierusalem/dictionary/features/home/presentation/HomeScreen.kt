@@ -30,12 +30,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ierusalem.dictionary.components.DictionaryAppBar
-import com.ierusalem.dictionary.components.WordItem
+import com.ierusalem.dictionary.ui.components.DictionaryAppBar
+import com.ierusalem.dictionary.ui.components.WordItem
 import com.ierusalem.dictionary.features.home.domain.HomeScreenState
-import com.ierusalem.dictionary.theme.DictionaryTheme
-import com.ierusalem.dictionary.utils.Constants
-import com.ierusalem.dictionary.components.EmptyScreen
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
+import com.ierusalem.dictionary.core.utils.Constants
+import com.ierusalem.dictionary.ui.components.EmptyScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

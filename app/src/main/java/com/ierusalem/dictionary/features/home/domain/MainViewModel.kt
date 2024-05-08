@@ -3,7 +3,7 @@ package com.ierusalem.dictionary.features.home.domain
 import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import com.ierusalem.dictionary.utils.Constants
+import com.ierusalem.dictionary.core.utils.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

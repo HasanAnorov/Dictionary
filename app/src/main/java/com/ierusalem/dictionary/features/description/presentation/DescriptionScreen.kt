@@ -19,8 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ierusalem.dictionary.components.DictionaryAppBar
-import com.ierusalem.dictionary.theme.DictionaryTheme
+import com.ierusalem.dictionary.ui.components.DictionaryAppBar
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

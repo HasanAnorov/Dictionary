@@ -1,10 +1,10 @@
-package com.ierusalem.dictionary.app
+package com.ierusalem.dictionary.core.app
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.GsonBuilder
-import com.ierusalem.dictionary.utils.Constants
+import com.ierusalem.dictionary.core.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.ierusalem.dictionary.utils
+package com.ierusalem.dictionary.core.utils
 
 object Constants {
 
