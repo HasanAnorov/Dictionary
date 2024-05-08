@@ -22,6 +22,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import com.ierusalem.dictionary.features.home.domain.HomeScreenState
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @Composable
@@ -29,6 +30,7 @@ fun DictionaryDrawer(
     drawerState: DrawerState = rememberDrawerState(initialValue = Closed),
     onChatClicked: (String) -> Unit,
     gestureEnabled:Boolean = true,
+    state:HomeScreenState,
     content: @Composable () -> Unit
 ) {
     DictionaryTheme {
@@ -38,7 +40,8 @@ fun DictionaryDrawer(
             drawerContent = {
                 ModalDrawerSheet {
                     DictionaryDrawerContent(
-                        onChatClicked = onChatClicked
+                        onChatClicked = onChatClicked,
+                        state = state
                     )
                 }
             },

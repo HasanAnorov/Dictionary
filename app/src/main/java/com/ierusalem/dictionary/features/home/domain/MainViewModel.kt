@@ -44,14 +44,43 @@ class MainViewModel(
     private val _state: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState())
     val state = _state.asStateFlow()
 
+    fun emptyCategories(){
+        val categories = listOf(CategoryItem(name = "All", isSelected = true))
+        _state.update {
+            it.copy(
+                categories = categories
+            )
+        }
+    }
+
+
+    fun getCategories(isEnglish: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val language =
+                if (isEnglish) Constants.LANGUAGE_ENGLISH else Constants.LANGUAGE_UZBEK
+            val categories = state.value.categories
+                .toMutableList()
+                .apply {
+                    addAll(
+                        dao.getCategories(language).map { name ->
+                            CategoryItem(name = name, isSelected = false)
+                        }
+                    )
+                }
+                .distinct()
+            _state.update {
+                it.copy(
+                    categories = categories
+                )
+            }
+        }
+    }
 
     fun openDrawer() {
-        Log.d("ahi3646", "openDrawer: ")
         _drawerShouldBeOpened.value = true
     }
 
     fun resetOpenDrawerAction() {
-        Log.d("ahi3646", "resetOpenDrawerAction: ")
         _drawerShouldBeOpened.value = false
     }
 
@@ -100,7 +129,6 @@ class MainViewModel(
     }
 
     fun insertWordsToDB() {
-        Log.d("ahi3646", "insertWordsToDB: ")
         val englishWords = state.value.remoteEngUzbWords.map {
             WordModel(
                 word = it.word,
@@ -141,7 +169,8 @@ class MainViewModel(
                 extras: CreationExtras
             ): T {
                 // Get the Application object from extras
-                val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
+                val application =
+                    checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
                 // Create a SavedStateHandle for this ViewModel from extras
                 //val savedStateHandle = extras.createSavedStateHandle()
                 return MainViewModel(
@@ -167,10 +196,14 @@ class MainViewModel(
 data class HomeScreenState(
     val words: List<String> = Constants.PREVIEW_WORDS_DATA,
     val isEnglish: Boolean = false,
-
+    val categories: List<CategoryItem> = listOf(CategoryItem(name = "All", isSelected = true)),
     val drawerGestureEnabled: Boolean = false,
-
     //landing
     val remoteEngUzbWords: List<WordItem> = listOf(),
     val remoteUzbEngWords: List<WordItem> = listOf(),
+)
+
+data class CategoryItem(
+    val name: String,
+    val isSelected: Boolean = false
 )

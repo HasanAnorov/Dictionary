@@ -42,7 +42,9 @@ import com.ierusalem.dictionary.ui.components.EmptyScreen
 fun HomeContent(
     uiState: HomeScreenState,
     modifier: Modifier = Modifier,
-    onNavIconPressed: () -> Unit = { }
+    onNavIconPressed: () -> Unit = { },
+    onSearchClick:() ->Unit,
+    onItemClick:(String) -> Unit,
 ) {
     val topBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topBarState)
@@ -65,7 +67,7 @@ fun HomeContent(
                         imageVector = Icons.Outlined.Search,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier
-                            .clickable(onClick = { })
+                            .clickable(onClick = { onSearchClick() })
                             .padding(horizontal = 12.dp, vertical = 16.dp)
                             .height(24.dp),
                         contentDescription = null
@@ -120,7 +122,10 @@ fun HomeContent(
 private fun HomeScreenPreview() {
     DictionaryTheme {
         HomeContent(
-            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA)
+            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
+            onSearchClick = {},
+            onItemClick = {},
+            onNavIconPressed = {}
         )
     }
 }
@@ -130,7 +135,10 @@ private fun HomeScreenPreview() {
 private fun HomeScreenPreviewDark() {
     DictionaryTheme(darkTheme = true) {
         HomeContent(
-            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA)
+            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
+            onSearchClick = {},
+            onItemClick = {},
+            onNavIconPressed = {}
         )
     }
 }

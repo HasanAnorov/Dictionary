@@ -33,6 +33,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -48,11 +50,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ierusalem.dictionary.R
+import com.ierusalem.dictionary.features.home.domain.HomeScreenState
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @Composable
 fun DictionaryDrawerContent(
-    onChatClicked: (String) -> Unit
+    onChatClicked: (String) -> Unit,
+    state: HomeScreenState
 ) {
     // Use windowInsetsTopHeight() to add a spacer which pushes the drawer content
     // below the status bar (y-axis)
@@ -65,11 +69,11 @@ fun DictionaryDrawerContent(
         DrawerHeader()
         DividerItem()
         DrawerItemHeader("Categories")
-        ChatItem("All", true) { onChatClicked("composers") }
-        ChatItem("Education", false) { onChatClicked("droidcon-nyc") }
-        ChatItem("Soccer", false) { onChatClicked("droidcon-nyc") }
-        ChatItem("Sport", false) { onChatClicked("droidcon-nyc") }
-        ChatItem("Fishing", false) { onChatClicked("droidcon-nyc") }
+        LazyColumn {
+            items(state.categories) { category ->
+                ChatItem(category.name, category.isSelected) { onChatClicked(category.name) }
+            }
+        }
     }
 }
 
@@ -169,7 +173,8 @@ fun DrawerPreview() {
                 DictionaryDrawerContent(
                     onChatClicked = {
 
-                    }
+                    },
+                    state = HomeScreenState()
                 )
             }
         }
@@ -185,7 +190,8 @@ fun DrawerPreviewDark() {
                 DictionaryDrawerContent(
                     onChatClicked = {
 
-                    }
+                    },
+                    state = HomeScreenState()
                 )
             }
         }

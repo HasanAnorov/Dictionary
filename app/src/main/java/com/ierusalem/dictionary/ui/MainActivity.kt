@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             ComposeView(this).apply {
                 consumeWindowInsets = false
                 setContent {
+                    val uiState by viewModel.state.collectAsStateWithLifecycle()
                     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                     val drawerOpen by viewModel.drawerShouldBeOpened.collectAsStateWithLifecycle()
 
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     DictionaryDrawer(
-                        gestureEnabled = viewModel.state.value.drawerGestureEnabled,
+                        gestureEnabled = uiState.drawerGestureEnabled,
                         drawerState = drawerState,
                         onChatClicked = {
 //                            findNavController().popBackStack(R.id.nav_home, false)
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity() {
 //                                drawerState.close()
 //                            }
                         },
+                        state = uiState
                     ) {
                         AndroidViewBinding(ActivityMainBinding::inflate)
                     }

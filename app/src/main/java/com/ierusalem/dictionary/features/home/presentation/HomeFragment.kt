@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.findNavController
 import com.ierusalem.dictionary.core.utils.Constants
 import com.ierusalem.dictionary.features.home.domain.MainViewModel
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
@@ -24,6 +27,8 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
         val isEnglish = arguments?.getBoolean(Constants.IS_ENGLISH_BUNDLE_KEY) ?: false
         viewModel.toggleEnglish(isEnglish)
+        viewModel.toggleDrawerGestureEnabled(true)
+        viewModel.getCategories(isEnglish)
     }
 
     override fun onCreateView(
@@ -37,11 +42,21 @@ class HomeFragment : Fragment() {
         )
         setContent {
             val uiState by viewModel.state.collectAsStateWithLifecycle()
+            BackHandler {
+                viewModel.emptyCategories()
+                findNavController().popBackStack()
+            }
             DictionaryTheme {
                 HomeContent(
                     uiState = uiState,
                     onNavIconPressed = {
                         viewModel.openDrawer()
+                    },
+                    onSearchClick = {
+
+                    },
+                    onItemClick = {
+
                     }
                 )
             }
