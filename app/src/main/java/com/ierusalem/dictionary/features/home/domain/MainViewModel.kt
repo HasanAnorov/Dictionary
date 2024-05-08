@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import com.ierusalem.dictionary.core.utils.Constants
+import com.ierusalem.dictionary.features.landing.db.WordsDao
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -11,9 +12,7 @@ import kotlinx.coroutines.flow.update
 /**
  * Used to communicate between screens.
  */
-class MainViewModel(
-
-) : ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _drawerShouldBeOpened = MutableStateFlow(false)
     val drawerShouldBeOpened = _drawerShouldBeOpened.asStateFlow()
