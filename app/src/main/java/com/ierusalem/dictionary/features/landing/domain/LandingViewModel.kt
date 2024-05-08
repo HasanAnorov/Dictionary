@@ -7,11 +7,13 @@ import com.ierusalem.androchat.ui.navigation.DefaultNavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.NavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.emitNavigation
 import com.ierusalem.dictionary.features.landing.db.WordModel
+//import com.ierusalem.dictionary.features.landing.db.WordModel
 import com.ierusalem.dictionary.features.landing.db.WordsDao
 import com.ierusalem.dictionary.features.landing.presentation.LandingPageNavigation
 import com.ierusalem.dictionary.features.landing.presentation.model.WordItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -22,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LandingViewModel @Inject constructor(
     private val repository: WordsRepository,
-    private val dao: WordsDao
 ) : ViewModel(),
     NavigationEventDelegate<LandingPageNavigation> by DefaultNavigationEventDelegate() {
 
@@ -33,11 +34,7 @@ class LandingViewModel @Inject constructor(
 
     private val _state: MutableStateFlow<LandingPageUiState> =
         MutableStateFlow(LandingPageUiState())
-    private val state = _state.asStateFlow()
-
-//    init {
-//        insertWordsToDB()
-//    }
+    val state = _state.asStateFlow()
 
     fun getWordsUzbEng() {
         viewModelScope.launch(handler) {
@@ -45,8 +42,8 @@ class LandingViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     _state.update { uiState ->
                         uiState.copy(
-                            remoteUzbEngWords = response.body()!!.words.map { wordItemDto ->
-                                wordItemDto.toWordItem()
+                            remoteUzbEngWords = response.body()!!.words.map { wordItemDtoUz ->
+                                wordItemDtoUz.toWordItem()
                             }
                         )
                     }
@@ -75,24 +72,24 @@ class LandingViewModel @Inject constructor(
         }
     }
 
-    fun insertWordsToDB() {
-        if (state.value.remoteEngUzbWords.isNotEmpty() && state.value.remoteUzbEngWords.isNotEmpty()) {
-            Log.d("ahi3646", "insertWordToDB: ")
-            state.value.remoteEngUzbWords.toMutableList().apply {
+    fun insertWordsToDB(dao: WordsDao) {
+        Log.d("ahi3646", "insertWordsToDB: ")
+        val allWords = state.value.remoteEngUzbWords
+            .toMutableList()
+            .apply {
                 addAll(state.value.remoteUzbEngWords)
-            }.forEach {
-                viewModelScope.launch(handler) {
-                    dao.upsertWordItem(
-                        WordModel(
-                            word = it.word,
-                            definition = it.definition,
-                            translations = it.translations,
-                            audio = it.audio,
-                            category = it.category
-                        )
-                    )
-                }
+            }.map {
+                WordModel(
+                    word = it.word,
+                    definition = it.definition,
+                    translations = it.translations,
+                    audio = it.audio,
+                    category = it.category
+                )
             }
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.deleteAllWords()
+            dao.upsertWordItem(allWords)
         }
     }
 
