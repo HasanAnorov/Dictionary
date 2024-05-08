@@ -9,35 +9,28 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
-import androidx.room.Room
 import com.ierusalem.dictionary.R
 import com.ierusalem.dictionary.core.utils.Constants
-import com.ierusalem.dictionary.features.landing.db.WordsDatabase
-import com.ierusalem.dictionary.features.landing.domain.LandingViewModel
+import com.ierusalem.dictionary.features.home.domain.MainViewModel
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class LandingFragment: Fragment() {
 
-    private val viewModel: LandingViewModel by viewModels()
-
-    private val englishWordsDb by lazy {
-        Room.databaseBuilder(
-            requireContext(),
-            WordsDatabase::class.java,
-            "dictionary.db"
-        ).build()
+    private val viewModel: MainViewModel by activityViewModels{
+        MainViewModel.Factory
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        viewModel.toggleDrawerGestureEnabled(false)
+
         viewModel.getWordsUzbEng()
         viewModel.getWordsEngUzb()
 
@@ -45,7 +38,7 @@ class LandingFragment: Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect{
                     if (it.remoteEngUzbWords.isNotEmpty()&&it.remoteUzbEngWords.isNotEmpty()){
-                        viewModel.insertWordsToDB(englishWordsDb.wordsDao)
+                        viewModel.insertWordsToDB()
                     }else{
                         Log.d("ahi3646", "data is empty")
                     }

@@ -16,7 +16,9 @@ import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 class HomeFragment : Fragment() {
 
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels{
+        MainViewModel.Factory
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

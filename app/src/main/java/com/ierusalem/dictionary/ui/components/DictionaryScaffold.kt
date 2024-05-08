@@ -28,10 +28,12 @@ import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 fun DictionaryDrawer(
     drawerState: DrawerState = rememberDrawerState(initialValue = Closed),
     onChatClicked: (String) -> Unit,
+    gestureEnabled:Boolean = true,
     content: @Composable () -> Unit
 ) {
     DictionaryTheme {
         ModalNavigationDrawer(
+            gesturesEnabled = gestureEnabled,
             drawerState = drawerState,
             drawerContent = {
                 ModalDrawerSheet {

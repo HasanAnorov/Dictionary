@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -100,9 +99,6 @@ dependencies {
     implementation (libs.logging.interceptor)
     //android view binding
     implementation (libs.androidx.ui.viewbinding)
-    //hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
     // Room
     implementation (libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)

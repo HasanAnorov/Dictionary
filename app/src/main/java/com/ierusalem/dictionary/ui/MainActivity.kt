@@ -18,18 +18,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ierusalem.dictionary.R
-import com.ierusalem.dictionary.ui.components.DictionaryDrawer
 import com.ierusalem.dictionary.databinding.ActivityMainBinding
 import com.ierusalem.dictionary.features.home.domain.MainViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.ierusalem.dictionary.ui.components.DictionaryDrawer
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
-
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels<MainViewModel>{
+        MainViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -66,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     DictionaryDrawer(
+                        gestureEnabled = viewModel.state.value.drawerGestureEnabled,
                         drawerState = drawerState,
                         onChatClicked = {
 //                            findNavController().popBackStack(R.id.nav_home, false)
