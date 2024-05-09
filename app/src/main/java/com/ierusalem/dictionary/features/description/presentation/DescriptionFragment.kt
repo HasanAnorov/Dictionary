@@ -11,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ierusalem.dictionary.core.utils.Constants
 import com.ierusalem.dictionary.features.home.domain.MainViewModel
-import com.ierusalem.dictionary.features.landing.db.WordModel
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 class DescriptionFragment : Fragment() {
