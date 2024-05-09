@@ -46,7 +46,7 @@ fun HomeContent(
     modifier: Modifier = Modifier,
     onNavIconPressed: () -> Unit = { },
     onSearchClick: () -> Unit,
-    onItemClick: (String) -> Unit,
+    onItemClick: (Int) -> Unit,
     onVoiceClick: (String) -> Unit,
     onSearchTextChange: (String) -> Unit
 ) {
@@ -120,7 +120,7 @@ fun HomeContent(
                     LazyColumn {
                         itemsIndexed(uiState.words) { index, item ->
                             WordItem(
-                                onWordClicked = { onItemClick(item.word) },
+                                onWordClicked = { onItemClick(item.id) },
                                 onVoiceClick = {
                                     onVoiceClick("voice_url")
                                 },

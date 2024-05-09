@@ -23,6 +23,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ierusalem.dictionary.features.home.presentation.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_descriptionFragment"
+            app:destination="@id/descriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="com.ierusalem.dictionary.features.description.presentation.DescriptionFragment"
+        android:label="DescriptionFragment" />
 
 </navigation>

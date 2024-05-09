@@ -44,7 +44,7 @@ class MainViewModel(
     private val _state: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState())
     val state = _state.asStateFlow()
 
-    fun getAllWords(isEnglish: Boolean){
+    fun getAllWords(isEnglish: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val language = if (isEnglish) Constants.LANGUAGE_ENGLISH else Constants.LANGUAGE_UZBEK
             val words = dao.getWords(language)
@@ -57,7 +57,18 @@ class MainViewModel(
         changeCategorySelection("All")
     }
 
-    private fun getWordsByCategory(category: String){
+    fun getWord(wordId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val word = dao.getWord(wordId)
+            _state.update {
+                it.copy(
+                    word = word
+                )
+            }
+        }
+    }
+
+    private fun getWordsByCategory(category: String) {
         val isEnglish = state.value.isEnglish
         val language = if (isEnglish) Constants.LANGUAGE_ENGLISH else Constants.LANGUAGE_UZBEK
         viewModelScope.launch(Dispatchers.IO) {
@@ -70,7 +81,7 @@ class MainViewModel(
         }
     }
 
-    fun emptyCategories(){
+    fun emptyCategories() {
         val categories = listOf(CategoryItem(name = "All", isSelected = true))
         _state.update {
             it.copy(
@@ -106,18 +117,18 @@ class MainViewModel(
         _drawerShouldBeOpened.value = true
     }
 
-    fun onChatClicked(category: String){
+    fun onChatClicked(category: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getWordsByCategory(category)
         }
         changeCategorySelection(category)
     }
 
-    private fun changeCategorySelection(category: String){
+    private fun changeCategorySelection(category: String) {
         val newCategories = state.value.categories.toMutableList().map {
-            if(it.name == category){
+            if (it.name == category) {
                 it.copy(isSelected = true)
-            }else{
+            } else {
                 it.copy(isSelected = false)
             }
         }
@@ -176,7 +187,7 @@ class MainViewModel(
         }
     }
 
-    fun toggleIsSearching(isSearching: Boolean){
+    fun toggleIsSearching(isSearching: Boolean) {
         _state.update {
             it.copy(
                 isSearching = isSearching
@@ -184,7 +195,7 @@ class MainViewModel(
         }
     }
 
-    fun onSearchTextChange(text:String){
+    fun onSearchTextChange(text: String) {
         _state.update {
             it.copy(
                 searchText = text
@@ -274,8 +285,11 @@ data class HomeScreenState(
     val remoteUzbEngWords: List<WordItem> = listOf(),
 
     //search
-    val searchText:String = "",
-    val isSearching: Boolean = false
+    val searchText: String = "",
+    val isSearching: Boolean = false,
+
+    //description
+    val word:WordModel? = null
 )
 
 data class CategoryItem(
