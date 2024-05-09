@@ -40,7 +40,7 @@ fun DictionaryDrawer(
             drawerContent = {
                 ModalDrawerSheet {
                     DictionaryDrawerContent(
-                        onChatClicked = onChatClicked,
+                        onChatClicked = { onChatClicked(it) },
                         state = state
                     )
                 }

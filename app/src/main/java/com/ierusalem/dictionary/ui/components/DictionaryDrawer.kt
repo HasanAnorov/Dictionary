@@ -71,7 +71,7 @@ fun DictionaryDrawerContent(
         DrawerItemHeader("Categories")
         LazyColumn {
             items(state.categories) { category ->
-                ChatItem(category.name, category.isSelected) { onChatClicked(category.name) }
+                ChatItem(text = category.name, selected =  category.isSelected, onChatClicked = { onChatClicked(category.name) })
             }
         }
     }
@@ -134,7 +134,7 @@ private fun ChatItem(text: String, selected: Boolean, onChatClicked: () -> Unit)
             .padding(horizontal = 12.dp)
             .clip(CircleShape)
             .then(background)
-            .clickable(onClick = onChatClicked),
+            .clickable{onChatClicked()},
         verticalAlignment = CenterVertically
     ) {
         //todo add icon if needed

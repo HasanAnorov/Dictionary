@@ -56,6 +56,19 @@ class MainViewModel(
         }
     }
 
+    private fun getWordsByCategory(category: String){
+        val isEnglish = state.value.isEnglish
+        val language = if (isEnglish) Constants.LANGUAGE_ENGLISH else Constants.LANGUAGE_UZBEK
+        viewModelScope.launch(Dispatchers.IO) {
+            val words = dao.getWords(language, category)
+            _state.update {
+                it.copy(
+                    words = words
+                )
+            }
+        }
+    }
+
     fun emptyCategories(){
         val categories = listOf(CategoryItem(name = "All", isSelected = true))
         _state.update {
@@ -90,6 +103,24 @@ class MainViewModel(
 
     fun openDrawer() {
         _drawerShouldBeOpened.value = true
+    }
+
+    fun onChatClicked(category: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            getWordsByCategory(category)
+        }
+        val newCategories = state.value.categories.toMutableList().map {
+            if(it.name == category){
+                it.copy(isSelected = true)
+            }else{
+                it.copy(isSelected = false)
+            }
+        }
+        _state.update { uiState ->
+            uiState.copy(
+                categories = newCategories
+            )
+        }
     }
 
     fun resetOpenDrawerAction() {

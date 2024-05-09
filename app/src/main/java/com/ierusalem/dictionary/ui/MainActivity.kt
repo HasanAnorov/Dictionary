@@ -68,10 +68,13 @@ class MainActivity : AppCompatActivity() {
                         gestureEnabled = uiState.drawerGestureEnabled,
                         drawerState = drawerState,
                         onChatClicked = {
-//                            findNavController().popBackStack(R.id.nav_home, false)
-//                            scope.launch {
-//                                drawerState.close()
-//                            }
+                            scope.launch {
+                                drawerState.close()
+                            }
+                            when(it){
+                                "All" -> { viewModel.getAllWords(viewModel.state.value.isEnglish)}
+                                else -> { viewModel.onChatClicked(it)}
+                            }
                         },
                         state = uiState
                     ) {
