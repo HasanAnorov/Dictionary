@@ -19,4 +19,13 @@ interface WordsDao {
     //to get categories
     @Query("SELECT category FROM wordmodel WHERE language=:language GROUP BY category")
     fun getCategories(language:String):List<String>
+
+    //to get words by category
+    @Query("SELECT * FROM wordmodel WHERE language=:language AND category=:category")
+    fun getWords(language:String,category:String):List<WordModel>
+
+    //to get all words
+    @Query("SELECT * FROM wordmodel WHERE language=:language")
+    fun getWords(language:String):List<WordModel>
+
 }

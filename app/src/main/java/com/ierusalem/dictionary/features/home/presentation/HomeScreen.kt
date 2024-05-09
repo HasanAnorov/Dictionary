@@ -30,12 +30,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ierusalem.dictionary.ui.components.DictionaryAppBar
-import com.ierusalem.dictionary.ui.components.WordItem
 import com.ierusalem.dictionary.features.home.domain.HomeScreenState
-import com.ierusalem.dictionary.ui.theme.DictionaryTheme
-import com.ierusalem.dictionary.core.utils.Constants
+import com.ierusalem.dictionary.ui.components.DictionaryAppBar
 import com.ierusalem.dictionary.ui.components.EmptyScreen
+import com.ierusalem.dictionary.ui.components.WordItem
+import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,11 +91,11 @@ fun HomeContent(
                     LazyColumn {
                         itemsIndexed(uiState.words) { index, item ->
                             WordItem(
-                                onWordClicked = { onItemClick(item) },
+                                onWordClicked = { onItemClick(item.word) },
                                 onVoiceClick = {
                                     onVoiceClick("voice_url")
                                 },
-                                word = item,
+                                word = item.word,
                                 isEnglish = uiState.isEnglish
                             )
                             if (index < uiState.words.size - 1) {
@@ -126,7 +125,7 @@ fun HomeContent(
 private fun HomeScreenPreview() {
     DictionaryTheme {
         HomeContent(
-            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
+            uiState = HomeScreenState(),
             onSearchClick = {},
             onItemClick = {},
             onNavIconPressed = {},
@@ -140,7 +139,7 @@ private fun HomeScreenPreview() {
 private fun HomeScreenPreviewDark() {
     DictionaryTheme(darkTheme = true) {
         HomeContent(
-            uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
+            uiState = HomeScreenState(),
             onSearchClick = {},
             onItemClick = {},
             onNavIconPressed = {},

@@ -44,6 +44,18 @@ class MainViewModel(
     private val _state: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState())
     val state = _state.asStateFlow()
 
+    fun getAllWords(isEnglish: Boolean){
+        viewModelScope.launch(Dispatchers.IO) {
+            val language = if (isEnglish) Constants.LANGUAGE_ENGLISH else Constants.LANGUAGE_UZBEK
+            val words = dao.getWords(language)
+            _state.update {
+                it.copy(
+                    words = words
+                )
+            }
+        }
+    }
+
     fun emptyCategories(){
         val categories = listOf(CategoryItem(name = "All", isSelected = true))
         _state.update {
@@ -194,7 +206,7 @@ class MainViewModel(
 
 @Immutable
 data class HomeScreenState(
-    val words: List<String> = Constants.PREVIEW_WORDS_DATA,
+    val words: List<WordModel> = listOf(),
     val isEnglish: Boolean = false,
     val categories: List<CategoryItem> = listOf(CategoryItem(name = "All", isSelected = true)),
     val drawerGestureEnabled: Boolean = false,

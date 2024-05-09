@@ -26,8 +26,9 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
         val isEnglish = arguments?.getBoolean(Constants.IS_ENGLISH_BUNDLE_KEY) ?: false
         viewModel.toggleEnglish(isEnglish)
-        viewModel.toggleDrawerGestureEnabled(true)
+        viewModel.getAllWords(isEnglish)
         viewModel.getCategories(isEnglish)
+        viewModel.toggleDrawerGestureEnabled(true)
     }
 
     override fun onCreateView(
