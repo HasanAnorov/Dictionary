@@ -43,8 +43,12 @@ class HomeFragment : Fragment() {
         setContent {
             val uiState by viewModel.state.collectAsStateWithLifecycle()
             BackHandler {
-                viewModel.emptyCategories()
-                findNavController().popBackStack()
+                if(uiState.isSearching){
+                    viewModel.toggleIsSearching(false)
+                }else{
+                    viewModel.emptyCategories()
+                    findNavController().popBackStack()
+                }
             }
             DictionaryTheme {
                 HomeContent(
@@ -53,13 +57,16 @@ class HomeFragment : Fragment() {
                         viewModel.openDrawer()
                     },
                     onSearchClick = {
-
+                        viewModel.toggleIsSearching(true)
                     },
                     onItemClick = {
 
                     },
                     onVoiceClick = {
 
+                    },
+                    onSearchTextChange = {
+                        viewModel.onSearchTextChange(it)
                     }
                 )
             }

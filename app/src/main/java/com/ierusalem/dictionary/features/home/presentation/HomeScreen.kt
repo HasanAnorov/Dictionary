@@ -22,10 +22,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +47,8 @@ fun HomeContent(
     onNavIconPressed: () -> Unit = { },
     onSearchClick: () -> Unit,
     onItemClick: (String) -> Unit,
-    onVoiceClick: (String) -> Unit
+    onVoiceClick: (String) -> Unit,
+    onSearchTextChange: (String) -> Unit
 ) {
     val topBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topBarState)
@@ -53,25 +57,50 @@ fun HomeContent(
         topBar = {
             DictionaryAppBar(
                 title = {
-                    Text(
-                        text = "Dictionary",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Center
-                    )
+                    if(uiState.isSearching){
+                        TextField(
+                            value = uiState.searchText,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            onValueChange = {
+                                onSearchTextChange(it)
+                            },
+                            placeholder = {
+                                Text(text = "Enter text here ...", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground )
+                            },
+                            singleLine = true,
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                                focusedContainerColor = MaterialTheme.colorScheme.background,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                        )
+                    }else{
+                        Text(
+                            text = "Dictionary",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 onNavIconPressed = onNavIconPressed,
                 scrollBehavior = scrollBehavior,
                 actions = {
-                    Icon(
-                        imageVector = Icons.Outlined.Search,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .clickable(onClick = { onSearchClick() })
-                            .padding(horizontal = 12.dp, vertical = 16.dp)
-                            .height(24.dp),
-                        contentDescription = null
-                    )
+                    if(!uiState.isSearching){
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .clickable(onClick = { onSearchClick() })
+                                .padding(horizontal = 12.dp, vertical = 16.dp)
+                                .height(24.dp),
+                            contentDescription = null
+                        )
+                    }
                 }
             )
         },
@@ -129,7 +158,8 @@ private fun HomeScreenPreview() {
             onSearchClick = {},
             onItemClick = {},
             onNavIconPressed = {},
-            onVoiceClick = {}
+            onVoiceClick = {},
+            onSearchTextChange = {}
         )
     }
 }
@@ -143,7 +173,8 @@ private fun HomeScreenPreviewDark() {
             onSearchClick = {},
             onItemClick = {},
             onNavIconPressed = {},
-            onVoiceClick = {}
+            onVoiceClick = {},
+            onSearchTextChange = {}
         )
     }
 }

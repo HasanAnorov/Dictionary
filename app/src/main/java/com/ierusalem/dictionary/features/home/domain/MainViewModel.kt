@@ -54,6 +54,7 @@ class MainViewModel(
                 )
             }
         }
+        changeCategorySelection("All")
     }
 
     private fun getWordsByCategory(category: String){
@@ -109,6 +110,10 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             getWordsByCategory(category)
         }
+        changeCategorySelection(category)
+    }
+
+    private fun changeCategorySelection(category: String){
         val newCategories = state.value.categories.toMutableList().map {
             if(it.name == category){
                 it.copy(isSelected = true)
@@ -168,6 +173,22 @@ class MainViewModel(
                     emitNavigation(LandingPageNavigation.Failure)
                 }
             }
+        }
+    }
+
+    fun toggleIsSearching(isSearching: Boolean){
+        _state.update {
+            it.copy(
+                isSearching = isSearching
+            )
+        }
+    }
+
+    fun onSearchTextChange(text:String){
+        _state.update {
+            it.copy(
+                searchText = text
+            )
         }
     }
 
@@ -244,6 +265,10 @@ data class HomeScreenState(
     //landing
     val remoteEngUzbWords: List<WordItem> = listOf(),
     val remoteUzbEngWords: List<WordItem> = listOf(),
+
+    //search
+    val searchText:String = "",
+    val isSearching: Boolean = false
 )
 
 data class CategoryItem(
