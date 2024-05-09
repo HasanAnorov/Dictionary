@@ -43,8 +43,9 @@ fun HomeContent(
     uiState: HomeScreenState,
     modifier: Modifier = Modifier,
     onNavIconPressed: () -> Unit = { },
-    onSearchClick:() ->Unit,
-    onItemClick:(String) -> Unit,
+    onSearchClick: () -> Unit,
+    onItemClick: (String) -> Unit,
+    onVoiceClick: (String) -> Unit
 ) {
     val topBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topBarState)
@@ -91,9 +92,12 @@ fun HomeContent(
                     LazyColumn {
                         itemsIndexed(uiState.words) { index, item ->
                             WordItem(
-                                onWordClicked = { /*TODO*/ },
-                                onVoiceClick = { /*TODO*/ },
-                                word = item
+                                onWordClicked = { onItemClick(item) },
+                                onVoiceClick = {
+                                    onVoiceClick("voice_url")
+                                },
+                                word = item,
+                                isEnglish = uiState.isEnglish
                             )
                             if (index < uiState.words.size - 1) {
                                 HorizontalDivider(
@@ -125,7 +129,8 @@ private fun HomeScreenPreview() {
             uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
             onSearchClick = {},
             onItemClick = {},
-            onNavIconPressed = {}
+            onNavIconPressed = {},
+            onVoiceClick = {}
         )
     }
 }
@@ -138,7 +143,8 @@ private fun HomeScreenPreviewDark() {
             uiState = HomeScreenState(Constants.PREVIEW_WORDS_DATA),
             onSearchClick = {},
             onItemClick = {},
-            onNavIconPressed = {}
+            onNavIconPressed = {},
+            onVoiceClick = {}
         )
     }
 }

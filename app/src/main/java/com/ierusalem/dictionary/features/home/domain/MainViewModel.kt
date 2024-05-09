@@ -175,7 +175,7 @@ class MainViewModel(
                 //val savedStateHandle = extras.createSavedStateHandle()
                 return MainViewModel(
                     (application as DictionaryApp).wordsDatabase.wordsDao,
-                    (application as DictionaryApp).repositoryImpl,
+                    application.repositoryImpl,
                     //savedStateHandle
                 ) as T
             }

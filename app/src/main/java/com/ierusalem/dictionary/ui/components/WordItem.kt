@@ -24,6 +24,7 @@ fun WordItem(
     modifier: Modifier = Modifier,
     onWordClicked: () -> Unit,
     onVoiceClick: () -> Unit,
+    isEnglish:Boolean,
     word: String
 ) {
     Row(
@@ -38,16 +39,19 @@ fun WordItem(
             text = word,
             modifier = Modifier
                 .weight(1F)
+                .padding(vertical = 16.dp)
                 .padding(start = 16.dp),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground
         )
-        IconButton(onClick = { onVoiceClick() }) {
-            Icon(
-                painter = painterResource(id = R.drawable.voice_cricle),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
-            )
+        if(isEnglish){
+            IconButton(onClick = { onVoiceClick() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.voice_cricle),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
         }
     }
 }
@@ -59,7 +63,8 @@ private fun WordItemLightPreview() {
         WordItem(
             word = "Word here",
             onWordClicked = {},
-            onVoiceClick = {}
+            onVoiceClick = {},
+            isEnglish = false
         )
     }
 }
@@ -71,7 +76,8 @@ private fun WordItemLightPreviewDark() {
         WordItem(
             word = "Word here",
             onWordClicked = {},
-            onVoiceClick = {}
+            onVoiceClick = {},
+            isEnglish = true
         )
     }
 }

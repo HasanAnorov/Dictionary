@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
@@ -19,7 +18,7 @@ import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
 class HomeFragment : Fragment() {
 
-    private val viewModel: MainViewModel by activityViewModels{
+    private val viewModel: MainViewModel by activityViewModels {
         MainViewModel.Factory
     }
 
@@ -56,6 +55,9 @@ class HomeFragment : Fragment() {
 
                     },
                     onItemClick = {
+
+                    },
+                    onVoiceClick = {
 
                     }
                 )
