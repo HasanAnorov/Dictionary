@@ -190,6 +190,13 @@ class MainViewModel(
                 searchText = text
             )
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update {
+                it.copy(
+                    words = dao.searchWords(text)
+                )
+            }
+        }
     }
 
     fun insertWordsToDB() {

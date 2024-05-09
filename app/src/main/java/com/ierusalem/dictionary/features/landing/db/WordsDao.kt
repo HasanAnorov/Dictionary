@@ -28,4 +28,11 @@ interface WordsDao {
     @Query("SELECT * FROM wordmodel WHERE language=:language")
     fun getWords(language:String):List<WordModel>
 
+    //to get word by id
+    @Query("SELECT * FROM wordmodel WHERE id=:id")
+    fun getWord(id:Int):WordModel
+
+    @Query("SELECT * FROM wordmodel WHERE word LIKE '%' || :query || '%'")
+    suspend fun searchWords(query: String): List<WordModel>
+
 }
