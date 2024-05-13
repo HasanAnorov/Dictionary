@@ -5,7 +5,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.ierusalem.employeemanagement.features.downloader.Downloader
@@ -21,12 +20,11 @@ class AndroidDownloader(
         val uri = Uri.parse(url)
         val name = uri.lastPathSegment
         val mimeType = getMimeType(uri)
-        Log.d("ahi3646", "downloadFile mimeType: mime -  $mimeType, file name - $name")
 
         val request = DownloadManager
             .Request(url.toUri())
             .setMimeType(mimeType)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
             .setTitle(name)
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name)
         return downloadManager.enqueue(request)

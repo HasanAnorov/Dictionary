@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
@@ -93,16 +94,20 @@ class HomeFragment : Fragment() {
         val audioPath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/" + url
         Log.d("ahi3646", "playAudio: $audioPath ")
         val myUri: Uri = Uri.parse(audioPath) // initialize Uri here
-        MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
-            )
-            setDataSource(requireContext(), myUri)
-            prepare()
-            start()
+        try {
+            MediaPlayer().apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                setDataSource(requireContext(), myUri)
+                prepare()
+                start()
+            }
+        }catch (e:Exception){
+            Toast.makeText(requireContext(), "Can't play audio, invalid audio file!", Toast.LENGTH_SHORT).show()
         }
     }
 
