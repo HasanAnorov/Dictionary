@@ -23,9 +23,9 @@ import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 fun WordItem(
     modifier: Modifier = Modifier,
     onWordClicked: () -> Unit,
-    onVoiceClick: () -> Unit,
-    isEnglish:Boolean,
-    word: String
+    onVoiceClick: (String) -> Unit,
+    word: String,
+    audio:String?,
 ) {
     Row(
         modifier = modifier
@@ -44,8 +44,8 @@ fun WordItem(
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onBackground
         )
-        if(isEnglish){
-            IconButton(onClick = { onVoiceClick() }) {
+        if(audio!=null){
+            IconButton(onClick = { onVoiceClick(audio) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.voice_cricle),
                     contentDescription = null,
@@ -64,7 +64,7 @@ private fun WordItemLightPreview() {
             word = "Word here",
             onWordClicked = {},
             onVoiceClick = {},
-            isEnglish = false
+            audio = null
         )
     }
 }
@@ -77,7 +77,7 @@ private fun WordItemLightPreviewDark() {
             word = "Word here",
             onWordClicked = {},
             onVoiceClick = {},
-            isEnglish = true
+            audio = ""
         )
     }
 }

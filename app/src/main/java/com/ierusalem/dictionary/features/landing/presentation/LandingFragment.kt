@@ -29,8 +29,6 @@ class LandingFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        viewModel.toggleDrawerGestureEnabled(false)
-
         viewModel.getWordsUzbEng()
         viewModel.getWordsEngUzb()
 
@@ -45,6 +43,11 @@ class LandingFragment: Fragment() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.toggleDrawerGestureEnabled(false)
     }
 
     override fun onCreateView(

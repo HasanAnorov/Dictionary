@@ -1,5 +1,6 @@
 package com.ierusalem.dictionary.features.home.domain
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.ierusalem.androchat.ui.navigation.NavigationEventDelegate
 import com.ierusalem.androchat.ui.navigation.emitNavigation
 import com.ierusalem.dictionary.core.app.DictionaryApp
 import com.ierusalem.dictionary.core.utils.Constants
+import com.ierusalem.dictionary.features.downloader.AndroidDownloader
 import com.ierusalem.dictionary.features.landing.db.WordModel
 import com.ierusalem.dictionary.features.landing.db.WordsDao
 import com.ierusalem.dictionary.features.landing.domain.WordsRepository
@@ -28,7 +30,8 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(
     private val dao: WordsDao,
-    private val repository: WordsRepository
+    private val repository: WordsRepository,
+    private val downloader: AndroidDownloader
 ) : ViewModel(),
     NavigationEventDelegate<LandingPageNavigation> by DefaultNavigationEventDelegate() {
 
@@ -212,13 +215,19 @@ class MainViewModel(
 
     fun insertWordsToDB() {
         val englishWords = state.value.remoteEngUzbWords.map {
+            if(it.audio != null){
+                downloader.downloadFile(it.audio)
+            }
+            val uri = Uri.parse(it.audio)
+            val name = uri.lastPathSegment
             WordModel(
                 word = it.word,
                 definition = it.definition,
                 translations = it.translations,
-                audio = it.audio,
+                audio = name,
                 category = it.category,
-                language = Constants.LANGUAGE_ENGLISH
+                language = Constants.LANGUAGE_ENGLISH,
+                id = it.id
             )
         }
         val uzbekWords = state.value.remoteUzbEngWords.map {
@@ -228,7 +237,8 @@ class MainViewModel(
                 translations = it.translations,
                 audio = it.audio,
                 category = it.category,
-                language = Constants.LANGUAGE_UZBEK
+                language = Constants.LANGUAGE_UZBEK,
+                id = it.id
             )
         }
         val allWords = englishWords
@@ -237,7 +247,6 @@ class MainViewModel(
                 addAll(uzbekWords)
             }
         viewModelScope.launch(Dispatchers.IO) {
-            dao.deleteAllWords()
             dao.upsertWordItem(allWords)
         }
     }
@@ -258,6 +267,7 @@ class MainViewModel(
                 return MainViewModel(
                     (application as DictionaryApp).wordsDatabase.wordsDao,
                     application.repositoryImpl,
+                    application.downloader
                     //savedStateHandle
                 ) as T
             }

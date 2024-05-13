@@ -122,10 +122,10 @@ fun HomeContent(
                             WordItem(
                                 onWordClicked = { onItemClick(item.id) },
                                 onVoiceClick = {
-                                    onVoiceClick("voice_url")
+                                    onVoiceClick(it)
                                 },
                                 word = item.word,
-                                isEnglish = uiState.isEnglish
+                                audio = item.audio
                             )
                             if (index < uiState.words.size - 1) {
                                 HorizontalDivider(

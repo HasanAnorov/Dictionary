@@ -156,24 +156,6 @@ fun Meaning(
 
 }
 
-@Preview
-@Composable
-private fun PreviewLight() {
-    DictionaryTheme(darkTheme = true) {
-        MainScreen(
-            paddingValues = PaddingValues(),
-            wordModel = WordModel(
-                word = "home",
-                translations = listOf("uy", "home", "house"),
-                category = "Home",
-                audio = null,
-                definition = null,
-                language = "english"
-            )
-        )
-    }
-}
-
 
 @Preview
 @Composable
@@ -186,7 +168,8 @@ private fun DescriptionScreenPreviewLight() {
                 category = "Home",
                 audio = null,
                 definition = null,
-                language = "english"
+                language = "english",
+                 id = 1
             )
         )
     }
@@ -203,7 +186,8 @@ private fun DescriptionScreenPreviewDark() {
                 category = "Home",
                 audio = null,
                 definition = null,
-                language = "english"
+                language = "english",
+                id = 1
             )
         )
     }

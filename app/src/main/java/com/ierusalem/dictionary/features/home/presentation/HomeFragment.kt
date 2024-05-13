@@ -1,7 +1,12 @@
 package com.ierusalem.dictionary.features.home.presentation
 
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +35,11 @@ class HomeFragment : Fragment() {
         viewModel.toggleEnglish(isEnglish)
         viewModel.getAllWords(isEnglish)
         viewModel.getCategories(isEnglish)
+        viewModel.toggleDrawerGestureEnabled(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.toggleDrawerGestureEnabled(true)
     }
 
@@ -69,14 +79,30 @@ class HomeFragment : Fragment() {
                         )
                     },
                     onVoiceClick = {
-
+                                   playAudio(it)
                     },
                     onSearchTextChange = {
                         viewModel.onSearchTextChange(it)
                     }
                 )
             }
+        }
+    }
 
+    private fun playAudio(url: String) {
+        val audioPath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/" + url
+        Log.d("ahi3646", "playAudio: $audioPath ")
+        val myUri: Uri = Uri.parse(audioPath) // initialize Uri here
+        MediaPlayer().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+            setDataSource(requireContext(), myUri)
+            prepare()
+            start()
         }
     }
 

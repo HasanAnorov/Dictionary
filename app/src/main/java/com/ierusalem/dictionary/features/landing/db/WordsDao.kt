@@ -13,7 +13,7 @@ interface WordsDao {
     fun deleteAllWords()
 
     //to insert all word
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun upsertWordItem(words: List<WordModel>)
 
     //to get categories

@@ -11,6 +11,6 @@ data class WordModel (
     val translations: List<String>,
     val audio: String?,
     val category: String,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    @PrimaryKey
+    val id: Int,
 )

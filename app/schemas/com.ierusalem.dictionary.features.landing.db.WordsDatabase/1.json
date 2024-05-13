@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fd74a809e3a730c783641f40091e1d48",
+    "identityHash": "759dfbf5c4544a671a5e2a8eececa743",
     "entities": [
       {
         "tableName": "WordModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`language` TEXT NOT NULL, `word` TEXT NOT NULL, `definition` TEXT, `translations` TEXT NOT NULL, `audio` TEXT, `category` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`language` TEXT NOT NULL, `word` TEXT NOT NULL, `definition` TEXT, `translations` TEXT NOT NULL, `audio` TEXT, `category` TEXT NOT NULL, `id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "language",
@@ -52,7 +52,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
             "id"
           ]
@@ -64,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fd74a809e3a730c783641f40091e1d48')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '759dfbf5c4544a671a5e2a8eececa743')"
     ]
   }
 }

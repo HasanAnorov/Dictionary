@@ -31,6 +31,16 @@ class DescriptionFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.toggleDrawerGestureEnabled(false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.toggleDrawerGestureEnabled(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
