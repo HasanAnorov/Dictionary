@@ -43,9 +43,22 @@ class MainViewModel(
     private val _drawerShouldBeOpened = MutableStateFlow(false)
     val drawerShouldBeOpened = _drawerShouldBeOpened.asStateFlow()
 
-
     private val _state: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState())
     val state = _state.asStateFlow()
+
+    fun getAboutContent() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getAboutContent().let {response ->
+                if (response.isSuccessful) {
+                    _state.update {uiState ->
+                        uiState.copy(
+                            aboutContent = response.body()!!.data.content
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     fun getAllWords(isEnglish: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -292,7 +305,9 @@ data class HomeScreenState(
         CategoryItem(name = "All", isSelected = true)
     ),
     val drawerGestureEnabled: Boolean = false,
+
     //landing
+    val aboutContent: String = "",
     val remoteEngUzbWords: List<WordItem> = listOf(),
     val remoteUzbEngWords: List<WordItem> = listOf(),
 

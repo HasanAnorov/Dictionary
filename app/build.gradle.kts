@@ -103,4 +103,6 @@ dependencies {
     implementation (libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
 
+    implementation ("com.github.ireward:compose-html:1.0.2")
+
 }

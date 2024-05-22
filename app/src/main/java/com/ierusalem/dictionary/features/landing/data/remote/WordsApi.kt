@@ -1,6 +1,7 @@
 package com.ierusalem.dictionary.features.landing.data.remote
 
 import com.google.gson.annotations.SerializedName
+import com.ierusalem.dictionary.features.about.data.response_model.AboutResponse
 import com.ierusalem.dictionary.features.landing.data.model.WordItemDto
 import com.ierusalem.dictionary.features.landing.data.model_uz.WordItemDtoUz
 import retrofit2.Response
@@ -13,6 +14,9 @@ interface WordsApi {
     //use different response model
     @GET("uz-en")
     suspend fun getUzbEng(): Response<WordsRemoteUz>
+
+    @GET("about")
+    suspend fun getAboutContent(): Response<AboutResponse>
 }
 
 data class WordsRemote(

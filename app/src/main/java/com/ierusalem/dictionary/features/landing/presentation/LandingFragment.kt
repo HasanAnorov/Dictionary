@@ -29,7 +29,7 @@ class LandingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
+        viewModel.getAboutContent()
         viewModel.getWordsUzbEng()
         viewModel.getWordsEngUzb()
 
