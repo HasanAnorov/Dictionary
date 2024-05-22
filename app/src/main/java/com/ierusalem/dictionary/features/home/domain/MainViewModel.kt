@@ -215,7 +215,7 @@ class MainViewModel(
 
     fun insertWordsToDB() {
         val englishWords = state.value.remoteEngUzbWords.map {
-            if(it.audio != null){
+            if (it.audio != null) {
                 downloader.downloadFile(it.audio)
             }
             val uri = Uri.parse(it.audio)
@@ -288,7 +288,9 @@ class MainViewModel(
 data class HomeScreenState(
     val words: List<WordModel> = listOf(),
     val isEnglish: Boolean = false,
-    val categories: List<CategoryItem> = listOf(CategoryItem(name = "All", isSelected = true)),
+    val categories: List<CategoryItem> = listOf(
+        CategoryItem(name = "All", isSelected = true)
+    ),
     val drawerGestureEnabled: Boolean = false,
     //landing
     val remoteEngUzbWords: List<WordItem> = listOf(),
@@ -299,7 +301,7 @@ data class HomeScreenState(
     val isSearching: Boolean = false,
 
     //description
-    val word:WordModel? = null
+    val word: WordModel? = null
 )
 
 data class CategoryItem(

@@ -1,6 +1,7 @@
 package com.ierusalem.dictionary.features.landing.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,9 +21,9 @@ import com.ierusalem.dictionary.features.home.domain.MainViewModel
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 import kotlinx.coroutines.launch
 
-class LandingFragment: Fragment() {
+class LandingFragment : Fragment() {
 
-    private val viewModel: MainViewModel by activityViewModels{
+    private val viewModel: MainViewModel by activityViewModels {
         MainViewModel.Factory
     }
 
@@ -33,11 +34,11 @@ class LandingFragment: Fragment() {
         viewModel.getWordsEngUzb()
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect{
-                    if (it.remoteEngUzbWords.isNotEmpty()&&it.remoteUzbEngWords.isNotEmpty()){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    if (it.remoteEngUzbWords.isNotEmpty() && it.remoteUzbEngWords.isNotEmpty()) {
                         viewModel.insertWordsToDB()
-                    }else{
+                    } else {
                         Log.d("ahi3646", "data is empty")
                     }
                 }
@@ -60,14 +61,36 @@ class LandingFragment: Fragment() {
             setContent {
                 DictionaryTheme(darkTheme = true) {
                     LandingScreen(
-                        onNavigate = {isEnglish ->
+                        onNavigate = { isEnglish ->
                             val bundle = bundleOf(Constants.IS_ENGLISH_BUNDLE_KEY to isEnglish)
-                            findNavController().navigate(R.id.action_landingFragment_to_homeFragment, bundle)
+                            findNavController().navigate(
+                                R.id.action_landingFragment_to_homeFragment,
+                                bundle
+                            )
+                        },
+                        onShareClick = {
+                            shareApp(requireContext())
+                        },
+                        onAboutClicked = {
+                            findNavController().navigate(R.id.action_landingFragment_to_aboutFragment)
                         }
                     )
                 }
             }
         }
+    }
+
+    private fun shareApp(context: Context) {
+        val appPackageName = "com.ierusalem.dictionary"
+        val appName = context.getString(R.string.app_name)
+        val shareBodyText = "https://play.google.com/store/apps/details?id=$appPackageName"
+
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TITLE, appName)
+            putExtra(Intent.EXTRA_TEXT, shareBodyText)
+        }
+        context.startActivity(Intent.createChooser(sendIntent, null))
     }
 
 }

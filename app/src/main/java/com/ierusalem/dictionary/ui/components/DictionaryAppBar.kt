@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.ierusalem.dictionary.ui.theme.DictionaryTheme
 
@@ -39,6 +40,7 @@ fun DictionaryAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onNavIconPressed: () -> Unit = { },
     title: @Composable () -> Unit,
+    navIcon:ImageVector = Icons.Filled.Menu,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
@@ -49,7 +51,7 @@ fun DictionaryAppBar(
         navigationIcon = {
             IconButton(onClick = { onNavIconPressed() }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
+                    imageVector = navIcon,
                     contentDescription = null
                 )
             }
